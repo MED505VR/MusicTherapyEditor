@@ -1073,6 +1073,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Editor",
+            "id": "ee5c5bf8-9628-4bf3-8344-69da649aa8a2",
+            "actions": [
+                {
+                    "name": "Place Current Selected Prefab",
+                    "type": "Button",
+                    "id": "dc3d18ee-cfa0-429d-bc4c-3f659e20ab52",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a6362988-0f02-4f85-b6eb-577ba38a0f02",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Place Current Selected Prefab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
