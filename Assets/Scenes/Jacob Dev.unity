@@ -2393,9 +2393,9 @@ GameObject:
   - component: {fileID: 1122062885}
   - component: {fileID: 1122062888}
   - component: {fileID: 1122062887}
-  - component: {fileID: 1122062886}
-  - component: {fileID: 1122062889}
   - component: {fileID: 1122062890}
+  - component: {fileID: 1122062889}
+  - component: {fileID: 1122062886}
   m_Layer: 0
   m_Name: Dropdown
   m_TagString: Untagged
@@ -2478,19 +2478,7 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1122062884}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &1122062887
 MonoBehaviour:

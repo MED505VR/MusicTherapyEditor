@@ -12,32 +12,34 @@ public class WallScript : MonoBehaviour
     private GameObject walls;
     private void Start()
     {
-        dropdown = transform.GetComponent<Dropdown>();
+        dropdown = transform.GetComponent<Dropdown>();      //gets dropdown component
 
-        dropdown.options.Clear();
+        dropdown.options.Clear();       //Clears the list
 
         List<string> items = new List<string>();
         
         
-        for (int i = 0; i < wallColorlist.Length; i++)
+        for (int i = 0; i < wallColorlist.Length; i++)      //adds the color list to Dropdown list
         {
             items.Add(wallColorlist[i].ToString());
         }
 
-        foreach (var item in items)
+        foreach (var item in items)     //for every color in the dropdownlist add the name of the color
         {
             dropdown.options.Add(new Dropdown.OptionData() { text = item });
         }
-        DropdownItemSelected(dropdown);
+        DropdownItemSelected(dropdown); 
         dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
+        
     }
+    
 
-    void DropdownItemSelected(Dropdown dropdown)
+    void DropdownItemSelected(Dropdown dropdown)        //sets the value of 
     {
+        print(dropdown.value);
         int index = dropdown.value;
         chosenWallColor = wallColorlist[index];
+        print(index);
 
     }
-
-    
 }
