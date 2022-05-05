@@ -1357,6 +1357,7 @@ MonoBehaviour:
   rightControllerTransform: {fileID: 497189104}
   currentSelectedPrefab: {fileID: 8770399354214031122, guid: 4e7f4f50ddd94e2418c20b4d91093660, type: 3}
   currentSelectedPrefabPlacementMaterial: {fileID: 2100000, guid: d1b042a40c94e524cb257da45eb4f65e, type: 2}
+  rotationSpeed: 300
 --- !u!1 &1177205565
 GameObject:
   m_ObjectHideFlags: 0

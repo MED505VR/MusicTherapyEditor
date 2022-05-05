@@ -9,12 +9,14 @@ namespace PlacementSystem
 
         [SerializeField] private Transform leftControllerTransform;
         [SerializeField] private Transform rightControllerTransform;
-        [SerializeField] private GameObject currentSelectedPrefab;
         [SerializeField] private Material currentSelectedPrefabPlacementMaterial;
+        [SerializeField] private float rotationSpeed;
 
         #endregion
 
         #region Non-serialized Fields
+
+        public GameObject CurrentSelectedPrefab { get; set; }
 
         private GameObject _currentSelectedPrefabInstance;
         private XRIDefaultInputActions _inputActions;
@@ -33,6 +35,9 @@ namespace PlacementSystem
         private void Update()
         {
             _targetPrefabPlacementLocation = GetPlacementGroundPosition();
+
+            if (_currentSelectedPrefabInstance != null) RotateCurrentSelectedPrefab(_currentSelectedPrefabInstance);
+
             DrawPrefabPlacementVisual();
         }
 
@@ -52,14 +57,14 @@ namespace PlacementSystem
 
         private void DrawPrefabPlacementVisual()
         {
-            if (currentSelectedPrefab == null || _targetPrefabPlacementLocation == new Vector3(100, 100, 100)) return;
+            if (CurrentSelectedPrefab == null || _targetPrefabPlacementLocation == new Vector3(100, 100, 100)) return;
 
             if (_currentSelectedPrefabInstance == null)
             {
-                _currentSelectedPrefabInstance = Instantiate(currentSelectedPrefab, _targetPrefabPlacementLocation,
+                _currentSelectedPrefabInstance = Instantiate(CurrentSelectedPrefab, _targetPrefabPlacementLocation,
                     Quaternion.identity);
 
-                currentSelectedPrefab.gameObject.layer = 2;
+                CurrentSelectedPrefab.gameObject.layer = 2;
 
                 try
                 {
@@ -92,8 +97,16 @@ namespace PlacementSystem
         {
             if (_targetPrefabPlacementLocation == new Vector3(100, 100, 100)) return;
 
-            if (currentSelectedPrefab)
-                Instantiate(currentSelectedPrefab, _targetPrefabPlacementLocation, Quaternion.identity);
+            if (CurrentSelectedPrefab)
+                Instantiate(CurrentSelectedPrefab, _targetPrefabPlacementLocation,
+                    _currentSelectedPrefabInstance.transform.rotation);
+        }
+
+        private void RotateCurrentSelectedPrefab(GameObject prefab)
+        {
+            var input = _inputActions.Editor.RotateCurrentSelectedPrefab.ReadValue<Vector2>();
+
+            prefab.transform.Rotate(0, input.x * Time.deltaTime * rotationSpeed, 0);
         }
 
         #endregion

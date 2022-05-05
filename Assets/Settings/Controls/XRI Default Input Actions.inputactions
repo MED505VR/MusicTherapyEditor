@@ -1086,6 +1086,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Rotate Current Selected Prefab",
+                    "type": "Value",
+                    "id": "ee55f050-b282-4c45-8441-de6ee22f37b1",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -1097,6 +1106,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Place Current Selected Prefab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3bcbeecc-2f33-4b15-be30-268f7c874348",
+                    "path": "<XRController>{RightHand}/thumbstick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate Current Selected Prefab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
