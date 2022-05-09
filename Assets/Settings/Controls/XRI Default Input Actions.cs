@@ -1143,6 +1143,34 @@ public partial class @XRIDefaultInputActions : IInputActionCollection2, IDisposa
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""7a93e363-6806-430d-9253-8b1cbb203569"",
+            ""actions"": [
+                {
+                    ""name"": ""Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""f17791a1-eba9-4309-a2dd-cedbe84842a9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""1a1a2e67-175a-473d-b095-07c3f9bd5150"",
+                    ""path"": ""<OculusTouchController>{RightHand}/primaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1260,6 +1288,9 @@ public partial class @XRIDefaultInputActions : IInputActionCollection2, IDisposa
         m_Editor = asset.FindActionMap("Editor", throwIfNotFound: true);
         m_Editor_PlaceCurrentSelectedPrefab = m_Editor.FindAction("Place Current Selected Prefab", throwIfNotFound: true);
         m_Editor_RotateCurrentSelectedPrefab = m_Editor.FindAction("Rotate Current Selected Prefab", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_Toggle = m_Menu.FindAction("Toggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1819,6 +1850,39 @@ public partial class @XRIDefaultInputActions : IInputActionCollection2, IDisposa
         }
     }
     public EditorActions @Editor => new EditorActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private IMenuActions m_MenuActionsCallbackInterface;
+    private readonly InputAction m_Menu_Toggle;
+    public struct MenuActions
+    {
+        private @XRIDefaultInputActions m_Wrapper;
+        public MenuActions(@XRIDefaultInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Toggle => m_Wrapper.m_Menu_Toggle;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+            {
+                @Toggle.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnToggle;
+                @Toggle.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnToggle;
+                @Toggle.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnToggle;
+            }
+            m_Wrapper.m_MenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Toggle.started += instance.OnToggle;
+                @Toggle.performed += instance.OnToggle;
+                @Toggle.canceled += instance.OnToggle;
+            }
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     private int m_GenericXRControllerSchemeIndex = -1;
     public InputControlScheme GenericXRControllerScheme
     {
@@ -1907,5 +1971,9 @@ public partial class @XRIDefaultInputActions : IInputActionCollection2, IDisposa
     {
         void OnPlaceCurrentSelectedPrefab(InputAction.CallbackContext context);
         void OnRotateCurrentSelectedPrefab(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnToggle(InputAction.CallbackContext context);
     }
 }
