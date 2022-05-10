@@ -31,6 +31,9 @@ namespace PlacementSystem
         {
             _inputActions ??= new XRIDefaultInputActions();
             _inputActions.Editor.PlaceCurrentSelectedPrefab.performed += _ => PlaceCurrentSelectedPrefab();
+
+            _placementModeEnabled = false;
+            _deletionModeEnabled = false;
         }
 
         private void Update()
@@ -56,43 +59,57 @@ namespace PlacementSystem
 
         #region Public Methods
 
+        /// <summary>
+        ///     Sets the placement mode to the supplied value.
+        /// </summary>
+        /// <param name="value"></param>
         public void SetPlacementMode(bool value)
         {
             if (value) _deletionModeEnabled = false;
             _placementModeEnabled = value;
         }
 
+        /// <summary>
+        ///     Sets the deletion mode to the supplied value.
+        /// </summary>
+        /// <param name="value"></param>
         public void SetDeletionMode(bool value)
         {
             if (value) _placementModeEnabled = false;
             _deletionModeEnabled = value;
         }
 
+        /// <summary>
+        ///     Sets the current selected prefab which will be placed next.
+        /// </summary>
+        /// <param name="value"></param>
         public void SetCurrentSelectedPrefab(GameObject value)
         {
-            _placementModeEnabled = true;
+            SetPlacementMode(true);
             _currentSelectedPrefab = value;
         }
 
-        public GameObject GetCurrentSelectedPrefab()
-        {
-            return _currentSelectedPrefab;
-        }
-        
         #endregion
 
         #region Private Methods
 
         private void DrawPrefabPlacementVisual()
         {
-            if (!_placementModeEnabled)
+            if (!_placementModeEnabled || _deletionModeEnabled)
             {
                 if (_currentSelectedPrefabInstance) _currentSelectedPrefabInstance = null;
 
                 return;
             }
 
-            if (_currentSelectedPrefab == null || _targetPrefabPlacementLocation == new Vector3(100, 100, 100)) return;
+            if (_currentSelectedPrefab == null) return;
+
+            // If the location is invalid we want to destroy the visual
+            if (_targetPrefabPlacementLocation == new Vector3(100, 100, 100))
+            {
+                Destroy(_currentSelectedPrefabInstance);
+                return;
+            }
 
             if (_currentSelectedPrefabInstance == null)
             {
@@ -121,32 +138,39 @@ namespace PlacementSystem
                 _currentSelectedPrefabInstance.transform.position = _targetPrefabPlacementLocation;
         }
 
+        // Gets the ground position for placing the selected prefab.
         private Vector3 GetPlacementGroundPosition()
         {
-            // Returns the point hit by the raycast if the raycast hit the ground layer
+            // Returns the point hit by the raycast if the raycast hit the ground layer.
             if (Physics.Raycast(rightControllerTransform.position, rightControllerTransform.forward, out var hit, 10))
-                return hit.transform.gameObject.layer != 3 ? new Vector3(100, 100, 100) : hit.point;
+                if (hit.transform.gameObject.layer == 3)
+                    return hit.point;
 
             return new Vector3(100, 100, 100);
         }
 
+        // Returns the hovered over game object for deletion.
         private GameObject GetPlacedObjectForDeletion()
         {
+            // Return the object if the object is on the placement layer.
             if (Physics.Raycast(rightControllerTransform.position, rightControllerTransform.forward, out var hit, 10))
-                return hit.transform.gameObject.layer != 3 ? null : hit.transform.gameObject;
+                if (hit.transform.gameObject.layer == 6)
+                    return hit.transform.gameObject;
 
             return null;
         }
 
         private void PlaceCurrentSelectedPrefab()
         {
-            if (_targetPrefabPlacementLocation == new Vector3(100, 100, 100)) return;
-            if (!_currentSelectedPrefab) return;
-
             if (_placementModeEnabled)
             {
-                Instantiate(_currentSelectedPrefab, _targetPrefabPlacementLocation,
+                if (_targetPrefabPlacementLocation == new Vector3(100, 100, 100)) return;
+                if (!_currentSelectedPrefab) return;
+
+                var prefab = Instantiate(_currentSelectedPrefab, _targetPrefabPlacementLocation,
                     _currentSelectedPrefabInstance.transform.rotation);
+
+                prefab.layer = 6;
 
                 Destroy(_currentSelectedPrefabInstance);
 
@@ -164,7 +188,7 @@ namespace PlacementSystem
 
             var input = _inputActions.Editor.RotateCurrentSelectedPrefab.ReadValue<Vector2>();
 
-            prefab.transform.Rotate(0, input.x * Time.deltaTime * rotationSpeed, 0);
+            prefab.transform.Rotate(0, -input.x * Time.deltaTime * rotationSpeed, 0);
         }
 
         #endregion
