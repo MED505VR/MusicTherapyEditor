@@ -7,6 +7,7 @@ TagManager:
   - Wall
   - Cube Prefab
   - Sphere Prefab
+  - RightDrumstick
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - Placement Objects
+  - 
   - 
   - 
   - 

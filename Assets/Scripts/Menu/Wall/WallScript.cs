@@ -36,10 +36,7 @@ public class WallScript : MonoBehaviour
 
     void DropdownItemSelected(Dropdown dropdown)        //sets the value of 
     {
-        print(dropdown.value);
         int index = dropdown.value;
         chosenWallColor = wallColorlist[index];
-        print(index);
-
     }
 }
