@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 namespace PlacementSystem
 {
@@ -17,7 +16,8 @@ namespace PlacementSystem
 
         #region Non-serialized Fields
 
-        private bool PlacementModeEnabled { get; set; }
+        private bool _placementModeEnabled;
+        private bool _deletionModeEnabled;
         private GameObject _currentSelectedPrefab;
         private GameObject _currentSelectedPrefabInstance;
         private XRIDefaultInputActions _inputActions;
@@ -25,7 +25,7 @@ namespace PlacementSystem
 
         #endregion
 
-        #region Event Functions
+        #region Unity Event Functions
 
         private void Awake()
         {
@@ -54,11 +54,38 @@ namespace PlacementSystem
 
         #endregion
 
+        #region Public Methods
+
+        public void SetPlacementMode(bool value)
+        {
+            if (value) _deletionModeEnabled = false;
+            _placementModeEnabled = value;
+        }
+
+        public void SetDeletionMode(bool value)
+        {
+            if (value) _placementModeEnabled = false;
+            _deletionModeEnabled = value;
+        }
+
+        public void SetCurrentSelectedPrefab(GameObject value)
+        {
+            _placementModeEnabled = true;
+            _currentSelectedPrefab = value;
+        }
+
+        public GameObject GetCurrentSelectedPrefab()
+        {
+            return _currentSelectedPrefab;
+        }
+        
+        #endregion
+
         #region Private Methods
 
         private void DrawPrefabPlacementVisual()
         {
-            if (!PlacementModeEnabled)
+            if (!_placementModeEnabled)
             {
                 if (_currentSelectedPrefabInstance) _currentSelectedPrefabInstance = null;
 
@@ -98,49 +125,46 @@ namespace PlacementSystem
         {
             // Returns the point hit by the raycast if the raycast hit the ground layer
             if (Physics.Raycast(rightControllerTransform.position, rightControllerTransform.forward, out var hit, 10))
-            {
                 return hit.transform.gameObject.layer != 3 ? new Vector3(100, 100, 100) : hit.point;
-            }
 
             return new Vector3(100, 100, 100);
         }
 
+        private GameObject GetPlacedObjectForDeletion()
+        {
+            if (Physics.Raycast(rightControllerTransform.position, rightControllerTransform.forward, out var hit, 10))
+                return hit.transform.gameObject.layer != 3 ? null : hit.transform.gameObject;
+
+            return null;
+        }
+
         private void PlaceCurrentSelectedPrefab()
         {
-            if (!PlacementModeEnabled) return;
             if (_targetPrefabPlacementLocation == new Vector3(100, 100, 100)) return;
             if (!_currentSelectedPrefab) return;
 
-            Instantiate(_currentSelectedPrefab, _targetPrefabPlacementLocation,
-                _currentSelectedPrefabInstance.transform.rotation);
+            if (_placementModeEnabled)
+            {
+                Instantiate(_currentSelectedPrefab, _targetPrefabPlacementLocation,
+                    _currentSelectedPrefabInstance.transform.rotation);
 
-            Destroy(_currentSelectedPrefabInstance);
+                Destroy(_currentSelectedPrefabInstance);
 
-            PlacementModeEnabled = false;
+                _placementModeEnabled = false;
+            }
+            else if (_deletionModeEnabled)
+            {
+                Destroy(GetPlacedObjectForDeletion());
+            }
         }
 
         private void RotateCurrentSelectedPrefab(GameObject prefab)
         {
-            if (!PlacementModeEnabled) return;
+            if (!_placementModeEnabled) return;
 
             var input = _inputActions.Editor.RotateCurrentSelectedPrefab.ReadValue<Vector2>();
 
             prefab.transform.Rotate(0, input.x * Time.deltaTime * rotationSpeed, 0);
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        public void SetCurrentSelectedPrefab(GameObject value)
-        {
-            PlacementModeEnabled = true;
-            _currentSelectedPrefab = value;
-        }
-
-        public GameObject GetCurrentSelectedPrefab()
-        {
-            return _currentSelectedPrefab;
         }
 
         #endregion
