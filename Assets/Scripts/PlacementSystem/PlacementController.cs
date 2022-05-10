@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace PlacementSystem
 {
@@ -16,8 +17,8 @@ namespace PlacementSystem
 
         #region Non-serialized Fields
 
-        public GameObject CurrentSelectedPrefab { get; set; }
-
+        private bool PlacementModeEnabled { get; set; }
+        private GameObject _currentSelectedPrefab;
         private GameObject _currentSelectedPrefabInstance;
         private XRIDefaultInputActions _inputActions;
         private Vector3 _targetPrefabPlacementLocation;
@@ -57,14 +58,21 @@ namespace PlacementSystem
 
         private void DrawPrefabPlacementVisual()
         {
-            if (CurrentSelectedPrefab == null || _targetPrefabPlacementLocation == new Vector3(100, 100, 100)) return;
+            if (!PlacementModeEnabled)
+            {
+                if (_currentSelectedPrefabInstance) _currentSelectedPrefabInstance = null;
+
+                return;
+            }
+
+            if (_currentSelectedPrefab == null || _targetPrefabPlacementLocation == new Vector3(100, 100, 100)) return;
 
             if (_currentSelectedPrefabInstance == null)
             {
-                _currentSelectedPrefabInstance = Instantiate(CurrentSelectedPrefab, _targetPrefabPlacementLocation,
+                _currentSelectedPrefabInstance = Instantiate(_currentSelectedPrefab, _targetPrefabPlacementLocation,
                     Quaternion.identity);
 
-                CurrentSelectedPrefab.gameObject.layer = 2;
+                _currentSelectedPrefab.gameObject.layer = 2;
 
                 try
                 {
@@ -78,35 +86,61 @@ namespace PlacementSystem
                     throw;
                 }
             }
+
+            if (!_currentSelectedPrefabInstance.CompareTag(_currentSelectedPrefab.gameObject.tag))
+                Destroy(_currentSelectedPrefabInstance);
+
             else
-            {
                 _currentSelectedPrefabInstance.transform.position = _targetPrefabPlacementLocation;
-            }
         }
 
         private Vector3 GetPlacementGroundPosition()
         {
             // Returns the point hit by the raycast if the raycast hit the ground layer
             if (Physics.Raycast(rightControllerTransform.position, rightControllerTransform.forward, out var hit, 10))
+            {
                 return hit.transform.gameObject.layer != 3 ? new Vector3(100, 100, 100) : hit.point;
+            }
 
             return new Vector3(100, 100, 100);
         }
 
         private void PlaceCurrentSelectedPrefab()
         {
+            if (!PlacementModeEnabled) return;
             if (_targetPrefabPlacementLocation == new Vector3(100, 100, 100)) return;
+            if (!_currentSelectedPrefab) return;
 
-            if (CurrentSelectedPrefab)
-                Instantiate(CurrentSelectedPrefab, _targetPrefabPlacementLocation,
-                    _currentSelectedPrefabInstance.transform.rotation);
+            Instantiate(_currentSelectedPrefab, _targetPrefabPlacementLocation,
+                _currentSelectedPrefabInstance.transform.rotation);
+
+            Destroy(_currentSelectedPrefabInstance);
+
+            PlacementModeEnabled = false;
         }
 
         private void RotateCurrentSelectedPrefab(GameObject prefab)
         {
+            if (!PlacementModeEnabled) return;
+
             var input = _inputActions.Editor.RotateCurrentSelectedPrefab.ReadValue<Vector2>();
 
             prefab.transform.Rotate(0, input.x * Time.deltaTime * rotationSpeed, 0);
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void SetCurrentSelectedPrefab(GameObject value)
+        {
+            PlacementModeEnabled = true;
+            _currentSelectedPrefab = value;
+        }
+
+        public GameObject GetCurrentSelectedPrefab()
+        {
+            return _currentSelectedPrefab;
         }
 
         #endregion

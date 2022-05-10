@@ -208,7 +208,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1019732123}
         m_TargetAssemblyTypeName: PlacementSystem.PlacementController, Assembly-CSharp
-        m_MethodName: set_CurrentSelectedPrefab
+        m_MethodName: SetCurrentSelectedPrefab
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 6405371460602127879, guid: 16960063bfde6cb469dccb8057b46e14, type: 3}
@@ -420,7 +420,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1019732123}
         m_TargetAssemblyTypeName: PlacementSystem.PlacementController, Assembly-CSharp
-        m_MethodName: set_CurrentSelectedPrefab
+        m_MethodName: SetCurrentSelectedPrefab
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8770399354214031122, guid: 4e7f4f50ddd94e2418c20b4d91093660, type: 3}
@@ -1762,6 +1762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c341a35d112ec4cae1563ca73f54d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentSelectedPrefab: {fileID: 0}
   leftControllerTransform: {fileID: 533576838}
   rightControllerTransform: {fileID: 497189104}
   currentSelectedPrefabPlacementMaterial: {fileID: 2100000, guid: d1b042a40c94e524cb257da45eb4f65e, type: 2}
@@ -1874,7 +1875,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3459560294898752586, guid: 67726730597e9674cbe1e71dcb5d69cc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: set_CurrentSelectedPrefab
+      value: SetCurrentSelectedPrefab
       objectReference: {fileID: 0}
     - target: {fileID: 3459560294898752586, guid: 67726730597e9674cbe1e71dcb5d69cc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
