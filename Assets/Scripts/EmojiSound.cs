@@ -12,7 +12,7 @@ public class EmojiSound : MonoBehaviour
 
     [SerializeField] private AudioClip _audioClip;
 
-    private void Start()
+    private void start()
     {
         wall = GameObject.Find("Emoji");
         soundAudioSource = wall.GetComponent<AudioSource>();
