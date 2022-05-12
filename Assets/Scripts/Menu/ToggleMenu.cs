@@ -13,11 +13,6 @@ namespace Menu
             toggleReference.action.started += _ => Toggle();
         }
 
-        private void Start()
-        {
-            Toggle();
-        }
-
         private void Toggle()
         {
             var isActive = !gameObject.activeSelf;

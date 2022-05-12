@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1989105507}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.1830495, g: 0.22873147, b: 0.30672342, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1648,8 +1648,8 @@ MonoBehaviour:
   m_Camera: {fileID: 1643716627}
   m_OriginBaseGameObject: {fileID: 1019732119}
   m_CameraFloorOffsetObject: {fileID: 1177205565}
-  m_RequestedTrackingOriginMode: 1
-  m_CameraYOffset: 1.1176
+  m_RequestedTrackingOriginMode: 2
+  m_CameraYOffset: 2.45
 --- !u!4 &1019732121
 Transform:
   m_ObjectHideFlags: 0
@@ -2208,7 +2208,7 @@ PrefabInstance:
     - target: {fileID: 3206196677362427866, guid: edbd53cf1b364324f995bd5b89ef1e41, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 41ee262792aef604090de07a737fcb99, type: 2}
+      objectReference: {fileID: 2100000, guid: 2e7d896fd5ee54e4491a55db4371353b, type: 2}
     - target: {fileID: 3224793953245408814, guid: edbd53cf1b364324f995bd5b89ef1e41, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
@@ -2253,6 +2253,14 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4935259033112919526, guid: edbd53cf1b364324f995bd5b89ef1e41, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 22b7a028f7914d942bca1218b2b3edee, type: 2}
+    - target: {fileID: 5492682395229153668, guid: edbd53cf1b364324f995bd5b89ef1e41, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d7be1b380834e754ea063eedccd06ee4, type: 2}
     - target: {fileID: 5696465926373959264, guid: edbd53cf1b364324f995bd5b89ef1e41, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
