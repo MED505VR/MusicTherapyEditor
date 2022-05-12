@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PlacementSystem
@@ -20,6 +20,8 @@ namespace PlacementSystem
         private bool _deletionModeEnabled;
         private GameObject _currentSelectedPrefab;
         private GameObject _currentSelectedPrefabInstance;
+        private GameObject _oldPrefabInstanceForDeletion;
+        private GameObject _prefabInstanceForDeletion;
         private XRIDefaultInputActions _inputActions;
         private Vector3 _targetPrefabPlacementLocation;
 
@@ -42,7 +44,9 @@ namespace PlacementSystem
 
             if (_currentSelectedPrefabInstance != null) RotateCurrentSelectedPrefab(_currentSelectedPrefabInstance);
 
+            _prefabInstanceForDeletion = GetPlacedObjectForDeletion();
             DrawPrefabPlacementVisual();
+            DrawPrefabDeletionVisual();
         }
 
         private void OnEnable()
@@ -118,16 +122,22 @@ namespace PlacementSystem
 
                 _currentSelectedPrefab.gameObject.layer = 2;
 
-                try
+                var coll = _currentSelectedPrefabInstance.GetComponent<Collider>();
+                var outline = _currentSelectedPrefabInstance.GetComponent<Outline>();
+
+                var colliderComponents = new List<Collider>();
+                if (coll) colliderComponents.Add(coll);
+                colliderComponents.AddRange(_currentSelectedPrefabInstance.GetComponentsInChildren<Collider>());
+
+                if (colliderComponents.Count != 0)
+                    foreach (var colliderComponent in colliderComponents)
+                        colliderComponent.enabled = false;
+
+                if (outline)
                 {
-                    _currentSelectedPrefabInstance.GetComponent<Collider>().enabled = false;
-                    _currentSelectedPrefabInstance.GetComponent<MeshRenderer>().material =
-                        currentSelectedPrefabPlacementMaterial;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
+                    outline.enabled = true;
+                    outline.OutlineWidth = 3.5f;
+                    outline.OutlineColor = Color.cyan;
                 }
             }
 
@@ -136,6 +146,27 @@ namespace PlacementSystem
 
             else
                 _currentSelectedPrefabInstance.transform.position = _targetPrefabPlacementLocation;
+        }
+
+        private void DrawPrefabDeletionVisual()
+        {
+            if (!_deletionModeEnabled) return;
+
+            if (_oldPrefabInstanceForDeletion != _prefabInstanceForDeletion)
+                if (_oldPrefabInstanceForDeletion)
+                    _oldPrefabInstanceForDeletion.GetComponent<Outline>().enabled = false;
+
+            if (!_prefabInstanceForDeletion) return;
+
+            var outline = _prefabInstanceForDeletion.GetComponent<Outline>();
+
+            if (!outline) return;
+
+            outline.enabled = true;
+            outline.OutlineWidth = 4f;
+            outline.OutlineColor = Color.red;
+
+            _oldPrefabInstanceForDeletion = _prefabInstanceForDeletion;
         }
 
         // Gets the ground position for placing the selected prefab.
@@ -178,7 +209,7 @@ namespace PlacementSystem
             }
             else if (_deletionModeEnabled)
             {
-                Destroy(GetPlacedObjectForDeletion());
+                Destroy(_prefabInstanceForDeletion);
             }
         }
 

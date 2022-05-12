@@ -139,7 +139,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 283502032310441940}
-  - component: {fileID: 1189533322206116947}
   - component: {fileID: 4303320740520166341}
   m_Layer: 2
   m_Name: EmojiWall
@@ -165,19 +164,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1189533322206116947
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 283502032310441941}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.51, y: 2.55, z: 0.37}
-  m_Center: {x: -0.53, y: 0, z: 0}
 --- !u!23 &4303320740520166341
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -230,7 +216,6 @@ GameObject:
   - component: {fileID: 283502032581167440}
   - component: {fileID: 283502032581167445}
   - component: {fileID: 283502032581167446}
-  - component: {fileID: 283502032581167447}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -301,19 +286,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &283502032581167447
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 283502032581167441}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3777399825742507435
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,7 +298,7 @@ GameObject:
   - component: {fileID: 4621581302786231428}
   - component: {fileID: 8221919071458856397}
   - component: {fileID: 3766267898659857462}
-  - component: {fileID: 7598058401984426506}
+  - component: {fileID: 2406633174321406362}
   m_Layer: 0
   m_Name: AngryEmoji
   m_TagString: Untagged
@@ -411,7 +383,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.02, y: 0.02, z: 0.0049721436}
   m_Center: {x: 0.00000035576522, y: 0.022749914, z: 0.002118821}
---- !u!114 &7598058401984426506
+--- !u!114 &2406633174321406362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -423,7 +395,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0c768cedef97ee439a231aed4ebb747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioClip: {fileID: 8300000, guid: 6bf76d016564b39419063a1222bd2a10, type: 3}
+  soundAudioSource: {fileID: 8696383855134445086}
+  audioClip: {fileID: 8300000, guid: 6bf76d016564b39419063a1222bd2a10, type: 3}
 --- !u!1 &6863971514573878280
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,7 +552,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0c768cedef97ee439a231aed4ebb747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioClip: {fileID: 8300000, guid: 954569d464c02d04fb951ca764254e71, type: 3}
+  soundAudioSource: {fileID: 8696383855134445086}
+  audioClip: {fileID: 8300000, guid: 954569d464c02d04fb951ca764254e71, type: 3}
 --- !u!1 &9020434735237394215
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,7 +663,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0c768cedef97ee439a231aed4ebb747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioClip: {fileID: 8300000, guid: 584fd5682e12564419250dd8c517204b, type: 3}
+  soundAudioSource: {fileID: 8696383855134445086}
+  audioClip: {fileID: 8300000, guid: 584fd5682e12564419250dd8c517204b, type: 3}
 --- !u!1001 &6001315427634539242
 PrefabInstance:
   m_ObjectHideFlags: 0

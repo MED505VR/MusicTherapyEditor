@@ -1,22 +1,12 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EmojiSound : MonoBehaviour
 {
-    private AudioSource soundAudioSource;
-    private GameObject wall;
-    
+    [SerializeField] private AudioSource soundAudioSource;
+    [SerializeField] private AudioClip audioClip;
+
     private bool _recentlyTriggered;
-
-    [SerializeField] private AudioClip _audioClip;
-
-    private void start()
-    {
-        wall = GameObject.Find("Emoji");
-        soundAudioSource = wall.GetComponent<AudioSource>();
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,7 +14,7 @@ public class EmojiSound : MonoBehaviour
         {
             if (_recentlyTriggered) return;
             var isPlaying = soundAudioSource.isPlaying;
-            if (isPlaying || soundAudioSource.clip == _audioClip)
+            if (isPlaying || soundAudioSource.clip == audioClip)
             {
                 soundAudioSource.Stop();
                 soundAudioSource.clip = null;
@@ -32,11 +22,11 @@ public class EmojiSound : MonoBehaviour
             else
             {
                 soundAudioSource.Stop();
-                soundAudioSource.clip = _audioClip;
+                soundAudioSource.clip = audioClip;
                 soundAudioSource.Play();
             }
+
             StartCoroutine(RecentlyTriggeredWait());
-            
         }
     }
 
@@ -47,5 +37,4 @@ public class EmojiSound : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         _recentlyTriggered = false;
     }
-    
 }
