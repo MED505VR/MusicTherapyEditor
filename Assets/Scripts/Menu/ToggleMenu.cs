@@ -6,22 +6,21 @@ namespace Menu
 {
     public class ToggleMenu : MonoBehaviour
     {
-
-        public InputActionReference toggleReference = null;
+        [SerializeField] private InputActionReference toggleReference;
 
         private void Awake()
         {
-            toggleReference.action.started += Toggle;
+            toggleReference.action.started += _ => Toggle();
         }
 
-        private void OnDestroy()
+        private void Start()
         {
-            toggleReference.action.started -= Toggle;
+            Toggle();
         }
 
-        private void Toggle(InputAction.CallbackContext context)
+        private void Toggle()
         {
-            bool isActive = !gameObject.activeSelf;
+            var isActive = !gameObject.activeSelf;
             gameObject.SetActive(isActive);
         }
     }

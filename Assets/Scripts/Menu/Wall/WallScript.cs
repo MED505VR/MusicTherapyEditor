@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class WallScript : MonoBehaviour
 {
-    public Material[] wallColorlist;
+    public Material[] wallColorList;
     public Material chosenWallColor;
     private Dropdown dropdown;
     private GameObject walls;
@@ -19,9 +19,9 @@ public class WallScript : MonoBehaviour
         List<string> items = new List<string>();
         
         
-        for (int i = 0; i < wallColorlist.Length; i++)      //adds the color list to Dropdown list
+        for (int i = 0; i < wallColorList.Length; i++)      //adds the color list to Dropdown list
         {
-            items.Add(wallColorlist[i].ToString());
+            items.Add(wallColorList[i].name);
         }
 
         foreach (var item in items)     //for every color in the dropdownlist add the name of the color
@@ -30,13 +30,12 @@ public class WallScript : MonoBehaviour
         }
         DropdownItemSelected(dropdown); 
         dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
-        
     }
     
 
     void DropdownItemSelected(Dropdown dropdown)        //sets the value of 
     {
         int index = dropdown.value;
-        chosenWallColor = wallColorlist[index];
+        chosenWallColor = wallColorList[index];
     }
 }
