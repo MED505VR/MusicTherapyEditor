@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 7940723443855242019}
   - component: {fileID: 8762133782469756561}
   - component: {fileID: 3181155469175033863}
+  - component: {fileID: 320052392998546331}
   m_Layer: 0
   m_Name: DeleteModeButton
   m_TagString: Untagged
@@ -255,8 +256,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlacementSystem.PlacementController, Assembly-CSharp
-        m_MethodName: SetDeletionMode
-        m_Mode: 6
+        m_MethodName: ToggleDeletionMode
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -265,6 +266,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &320052392998546331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506491164855883636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96efedbb5a3de9b4799f6d7c191a12ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementController: {fileID: 0}
+  deleteModeActiveString: Exit Delete Mode
+  deleteModeInactiveString: Enter Delete Mode
+  deleteModeActiveColor: {r: 0.33521715, g: 0.764151, b: 0.70390743, a: 1}
+  deleteModeInactiveColor: {r: 1, g: 0.427451, b: 0.427451, a: 1}
+  text: {fileID: 3649196273880804231}
+  image: {fileID: 8762133782469756561}
 --- !u!1 &3459560294335305533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1725,7 +1745,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Delete Mode
+  m_Text: Enter Delete Mode
 --- !u!1 &5246329575080570238
 GameObject:
   m_ObjectHideFlags: 0

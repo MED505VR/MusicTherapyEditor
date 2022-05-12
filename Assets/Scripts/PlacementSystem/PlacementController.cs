@@ -61,7 +61,7 @@ namespace PlacementSystem
 
         #endregion
 
-        #region Public Methods
+        #region Public Functions
 
         /// <summary>
         ///     Sets the placement mode to the supplied value.
@@ -76,11 +76,14 @@ namespace PlacementSystem
         /// <summary>
         ///     Sets the deletion mode to the supplied value.
         /// </summary>
-        /// <param name="value"></param>
-        public void SetDeletionMode(bool value)
+        public void ToggleDeletionMode()
         {
-            if (value) _placementModeEnabled = false;
-            _deletionModeEnabled = value;
+            _deletionModeEnabled = !_deletionModeEnabled;
+        }
+
+        public bool GetDeleteMode()
+        {
+            return _deletionModeEnabled;
         }
 
         /// <summary>
@@ -95,7 +98,7 @@ namespace PlacementSystem
 
         #endregion
 
-        #region Private Methods
+        #region Private Functions
 
         private void DrawPrefabPlacementVisual()
         {
